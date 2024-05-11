@@ -6,6 +6,7 @@ use App\Http\Requests\ProductAttributeValueDestroyRequest;
 use App\Http\Requests\ProductAttributeValueRequest;
 use App\Http\Requests\ProductAttributeValueUpdateRequest;
 use App\Http\Resources\ProductAttributeValueResource;
+use App\Models\Product;
 use App\Models\ProductAttribute;
 use App\Models\ProductAttributeValue;
 use Illuminate\Http\Request;
@@ -34,13 +35,13 @@ class ProductAttributeValueController extends Controller
     }
     public function store(ProductAttributeValueRequest $request)
     {
-        $product = ProductAttributeValue::create([
-            'product_id' => $request->product_id,
-            'value'=>$request->value,
-            'product_attribute_id' => $request->product_attribute_id,
-        ]);
-        return new ProductAttributeValueResource( $product, Response::HTTP_CREATED);
-        
+        $product=Product::find($request->product_id);
+        $product->attributes()->attach(
+            $request->product_attribute_id,
+            [
+                'value'=>$request->value,
+            ]);
+        return response(["message " => "Created Successfull"], Response::HTTP_OK);
     }
     public function update( ProductAttributeValueUpdateRequest $request)
     {
@@ -49,7 +50,7 @@ class ProductAttributeValueController extends Controller
         ]);
         return response(["message " => "Updated Successfull"], Response::HTTP_OK);
     }
-    public function destroy(ProductAttributeValueDestroyRequest $request)
+    public function destroy(ProductAttributeValueDestroyRequest $request,$product)
     {
         ProductAttributeValue::where('id', $request->id)->delete();
         return response()->json(['message' => 'Deleted Successfull'], 200);
