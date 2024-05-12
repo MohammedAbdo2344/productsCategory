@@ -20,8 +20,8 @@ class ProductRequest extends FormRequest
     {
         return [
             'category_id'=>['required'],
-            'name'=>['required',"unique:products,name",'min:3', 'max:10'],
-            'description' => ['nullable','min:5'],
+            'name'=>['required',"unique:products,name",'min:3', 'max:100'],
+            'description' => ['nullable','min:5','max:255'],
             'price'=>['required','decimal:2','gt:0.0'],
             'quantity'=>['required','integer'],
         ];

@@ -17,25 +17,25 @@ class CategoryController extends Controller
         $categories = CategoryResource::collection(Category::with(['categoryProduct'])->simplePaginate(5));
         if ($categories->isEmpty()) {
             return response()->json([
-                'message' => 'Category Not found'
+                'message' => 'Not found Categories'
             ],  Response::HTTP_NOT_FOUND);
         }
         return $categories;
     }
     public function show($category)
     {
-        $contact = CategoryResource::collection(Category::where('id', $category)->get());
-        if ($contact->isEmpty()) {
+        $category = CategoryResource::collection(Category::where('id', $category)->get());
+        if ($category->isEmpty()) {
             return response()->json([
                 'message' => 'Category Not found'
             ],  Response::HTTP_NOT_FOUND);
         }
-        return $contact;
+        return $category;
     }
     public function store(CategoryRequest $request)
     {
-        $contacts = Category::create($request->all());
-        return new CategoryResource($contacts, Response::HTTP_CREATED);
+        $categories = Category::create($request->all());
+        return new CategoryResource($categories, Response::HTTP_CREATED);
     }
     public function update(CategoryUpdateRequest $request)
     {

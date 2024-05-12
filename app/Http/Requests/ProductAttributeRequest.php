@@ -22,7 +22,7 @@ class ProductAttributeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'=>['required','unique:product_attributes,name','min:3', 'max:10'],
+            'name'=>['required','min:3', 'max:10'],
             'description' => ['nullable','min:5'],
         ];
     }
@@ -32,7 +32,6 @@ class ProductAttributeRequest extends FormRequest
             'name.required' => "The :attribute field is Required",
             'name.min' => "The name must be at least :min characters.",
             'name.max' => "The name may not be greater than :max characters.",
-            'name.unique'=>"This name has already been recorded",
             'description.min' => "The description must be at least :min characters.",
         ];
     }

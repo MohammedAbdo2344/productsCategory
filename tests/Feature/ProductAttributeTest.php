@@ -95,21 +95,7 @@ class ProductAttributeTest extends TestCase
             ->assertJsonValidationErrors(['name'])
             ->json();
     }
-    public function test_while_storing_name_is_unique(): void
-    {
-        $this->productAttribute = ProductAttribute::factory()->create(['name' => 'model']);
-        $this->postJson(
-            route(
-                "product_attribute.store",
-                ['category' => $this->category->id]
-            ),
-            [
-                'name' => 'model'
-            ]
-        )
-            ->assertJsonValidationErrors(['name'])
-            ->json();
-    }
+    
     public function test_while_storing_name_min_is_3(): void
     {
         $this->postJson(
